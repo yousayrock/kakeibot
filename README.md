@@ -98,7 +98,7 @@ bot:
 ## 📁 ファイル構成
 
 ```
-kakeibo-bot/
+kakeibot/
 ├── bot.py              # メインコード
 ├── config.yml          # カスタマイズ設定
 ├── requirements.txt    # 依存ライブラリ
