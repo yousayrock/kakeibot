@@ -257,6 +257,9 @@ def get_business_profile() -> str:
     return load_config().get("business_profile", "")
 
 def is_onboarding_done() -> bool:
+    # Railway環境では環境変数で管理（ファイルは再起動で消える）
+    if os.environ.get("ONBOARDING_DONE", "").lower() == "true":
+        return True
     return load_config().get("onboarding_done", False)
 
 
