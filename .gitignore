@@ -1,0 +1,22 @@
+# 認証情報・秘密鍵
+.env
+credentials.json
+token.pickle
+
+# データ（顧客データ・バックアップ）
+data/
+data_backup/
+
+# 出力ファイル
+output/
+
+# ログ
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# その他
+.DS_Store
