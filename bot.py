@@ -107,6 +107,9 @@ def load_config() -> dict:
 
 def save_config(config: dict):
     CONFIG_PATH.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Driveにバックアップ
+    if drive_sync:
+        drive_sync.upload(CONFIG_PATH, "config/config")
 
 def load_state() -> dict:
     """pending状態をファイルから復元する。"""
@@ -221,15 +224,26 @@ async def ask_accounting(question: str, user_id: int) -> tuple[str, str]:
         logger.error(f"経理AI(Haiku)エラー: {e}")
         return "❌ AIへの接続に失敗しました。しばらく待ってから再試行してください。", "error"
 
-    # JSON部分を抽出
-    import json as _json
+    # JSON部分を抽出（コードブロックや余分な文字を除去）
+    import json as _json, re as _re
     complexity = "simple"
     try:
-        first_line = full.split("\n")[0].strip()
-        meta = _json.loads(first_line)
-        complexity = meta.get("complexity", "simple")
-        answer = "\n".join(full.split("\n")[1:]).strip()
+        # ```json ... ``` や最初の { ... } を探す
+        json_match = _re.search(r'\{[^}]*"complexity"[^}]*\}', full)
+        if json_match:
+            meta = _json.loads(json_match.group())
+            complexity = meta.get("complexity", "simple")
+            # JSON部分を除去して残りを回答とする
+            answer = full[json_match.end():].strip()
+            if not answer:
+                answer = full[:json_match.start()].strip()
+        else:
+            answer = full
     except Exception:
+        answer = full
+
+    # answerが空またはJSONのみの場合はfullをそのまま使う
+    if not answer or answer.startswith("{"):
         answer = full
 
     # Step2: complex なら Sonnet で再回答
@@ -1346,6 +1360,15 @@ async def on_ready():
     # 起動時にDriveからデータを復元
     if drive_sync:
         await asyncio.to_thread(drive_sync.restore_all, KAKEIBO_DIR)
+        # config.jsonも復元
+        if not CONFIG_PATH.exists():
+            await asyncio.to_thread(drive_sync.download, "config/config", CONFIG_PATH)
+
+    # nisshi動作確認ログ
+    if nisshi:
+        logger.info(f"✅ nisshi loaded / NOTION_TOKEN={'set' if nisshi.NOTION_TOKEN else 'MISSING'}")
+    else:
+        logger.warning("⚠️ nisshi not loaded")
 
     logger.info(f"✅ Bot起動: {bot.user}")
     print(f"✅ 家計簿Bot起動しました: {bot.user}")
