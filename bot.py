@@ -92,6 +92,7 @@ pending_manual:      dict[int, dict] = {}  # 手入力受付中
 pending_reply_edit:  dict[int, dict] = {}  # リプライ修正確認待ち
 last_record_context: dict[int, dict] = {}  # 直近の記録コンテキスト（MAX_CTX_ENTRIES件まで）
 onboarding_state:    dict[int, dict] = {}  # 初回ヒアリング進行中
+pending_duplicate:   dict[int, dict] = {}  # 重複確認待ち
 accounting_mode:     dict[int, bool]  = {}  # 経理モード中のユーザー
 
 
@@ -1375,6 +1376,40 @@ async def on_message(message: discord.Message):
     # 航海日誌処理（Notionメモ自動保存）
     if nisshi and await nisshi.handle(message):
         return
+
+    # ── 重複追加の確認応答 ──────────────────────────────
+    if user_id in pending_duplicate and text_raw == "重複追加":
+        pd = pending_duplicate.pop(user_id)
+        # 保存処理を続行（重複チェックをスキップして記録）
+        date_obj     = pd["date_obj"]
+        result       = pd["result"]
+        rec_list     = pd["rec_list"]
+        store_name   = pd["store_name"]
+        fname        = pd["fname"]
+        image_bytes  = pd["image_bytes"]
+        media_type   = pd["media_type"]
+        user_comment = pd["user_comment"]
+        attachment   = pd["attachment"]
+        saved_records = []
+        receipt_saved = False
+        for i, rec_item in enumerate(rec_list):
+            purpose = rec_item.get("purpose", "個人")
+            amount  = rec_item.get("amount", 0)
+            cat     = rec_item.get("category", "その他")
+            note    = user_comment if (user_comment and i == 0) else rec_item.get("note", "")
+            record  = {
+                "id": make_record_id(result["date"], f"{attachment.filename}_{i}_dup"),
+                "year": date_obj.year, "month": date_obj.month,
+                "date": result["date"], "type": "支出",
+                "name": store_name, "amount": amount,
+                "category": cat, "purpose": purpose,
+                "note": note, "receipt_file": fname if not receipt_saved else None,
+            }
+            receipt_saved = True
+            add_record(record)
+            saved_records.append(record)
+        await message.channel.send(f"✅ 重複を承認して記録しました！\n{record_confirm_msg(saved_records[0])}")
+        return
     cfg = load_config()
     if "_pending_alert" in cfg:
         alert_msg = cfg.pop("_pending_alert")
@@ -1783,6 +1818,30 @@ async def on_message(message: discord.Message):
             rec_list      = result.get("records", [{"purpose":"個人","amount":0,"category":"その他","note":""}])
             saved_records = []
             receipt_saved = False
+
+            # ── 重複チェック ──────────────────────────────
+            existing = load_records(date_obj.year, date_obj.month, user_id)
+            total_new = sum(r.get("amount", 0) for r in rec_list)
+            duplicates = [
+                r for r in existing
+                if r.get("date") == result["date"]
+                and r.get("name") == store_name
+                and abs(r.get("amount", 0) - total_new) < 10  # 端数誤差10円以内
+            ]
+            if duplicates:
+                await message.channel.send(
+                    f"⚠️ **重複の可能性があります**\n"
+                    f"`{result['date']} {store_name} ¥{total_new:,}` はすでに記録済みです。\n"
+                    f"追加する場合は「重複追加」と送信してください。"
+                )
+                pending_duplicate[user_id] = {
+                    "result": result, "date_obj": date_obj, "rec_list": rec_list,
+                    "store_name": store_name, "fname": fname, "image_bytes": image_bytes,
+                    "media_type": media_type, "user_comment": user_comment,
+                    "attachment": attachment
+                }
+                return
+            # ─────────────────────────────────────────────
 
             for i, rec_item in enumerate(rec_list):
                 purpose = rec_item.get("purpose", "個人")
