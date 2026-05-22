@@ -1396,6 +1396,9 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
+    user_id  = message.author.id
+    text_raw = message.content.strip()
+
     # 航海日誌処理（Notionメモ自動保存）
     if nisshi and await nisshi.handle(message):
         return
@@ -1448,8 +1451,6 @@ async def on_message(message: discord.Message):
         return
 
     # ── 経理モードの切り替えを最優先で処理 ──
-    text_raw = message.content.strip()
-    user_id  = message.author.id  # ← K1修正: user_id を先に定義
     if text_raw in ["経理モード", "けいりもーど", "経理", "会計モード", "終了", "おわり", "exit"]:
         if text_raw in ["終了", "おわり", "exit"] or accounting_mode.get(user_id):
             accounting_mode.pop(user_id, None)
