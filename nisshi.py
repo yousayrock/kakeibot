@@ -21,7 +21,8 @@ GOOGLE_SA_JSON         = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "")
 GOOGLE_DRIVE_FOLDER_ID = os.getenv("GOOGLE_DRIVE_FOLDER_ID", "1AP6eDCgOA_l1RiGxRPobCg9VROQEwxn1")
 MEMO_PAGE_ID           = os.getenv("MEMO_PAGE_ID", "367945a0ab9a8177bbbde89ca94e9656")
 MEMO_CHANNEL_NAME      = os.getenv("MEMO_CHANNEL_NAME", "今日のメモ")
-MEMO_TRIGGERS          = ["メモ", "アイデア", "memo", "idea"]
+KAKEIBO_CHANNEL_ID     = int(os.getenv("KAKEIBO_CHANNEL_ID", "0")) or None
+MEMO_TRIGGERS          = ["メモ", "アイデア", "📝", "💡", "日記", "日誌", "memo", "idea", "note"]
 MAX_IMAGE_BYTES        = 5 * 1024 * 1024  # 5MB
 
 JST = timezone(timedelta(hours=9))
@@ -207,8 +208,9 @@ async def handle(message) -> bool:
     images = [a for a in message.attachments
               if a.content_type and a.content_type.startswith("image")]
 
-    # ── #今日のメモ チャンネル ──────────────────────────
-    if message.channel.name == MEMO_CHANNEL_NAME:
+    # ── 専用メモチャンネル（家系botチャンネルと別の場合のみ全文保存）──
+    is_kakeibo_ch = KAKEIBO_CHANNEL_ID and message.channel.id == KAKEIBO_CHANNEL_ID
+    if message.channel.name == MEMO_CHANNEL_NAME and not is_kakeibo_ch:
         if text:
             add_text_to_memo(text)
         for img in images:
