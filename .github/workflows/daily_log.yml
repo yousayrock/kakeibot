@@ -1,0 +1,27 @@
+name: 航海日誌 自動生成
+
+on:
+  schedule:
+    - cron: "59 14 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 依存関係インストール
+        run: pip install requests
+
+      - name: 航海日誌生成
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python daily_log.py
