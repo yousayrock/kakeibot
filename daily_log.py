@@ -247,7 +247,7 @@ def generate_log(today_str, memo_text, yesterday_log, images=None):
             "content-type": "application/json",
         },
         json={
-            "model": "claude-sonnet-4-20250514",
+            "model": "claude-haiku-4-5-20251001",
             "max_tokens": 1500,
             "system": system_prompt,
             "messages": [{"role": "user", "content": content}],
