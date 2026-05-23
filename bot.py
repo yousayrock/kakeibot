@@ -2206,6 +2206,12 @@ async def on_message(message: discord.Message):
     await bot.process_commands(message)
 
 
+@bot.event
+async def on_error(event: str, *args, **kwargs):
+    import traceback
+    logger.error(f"[on_error] event={event}\n{traceback.format_exc()}")
+
+
 if __name__ == "__main__":
     print("kakeibo Bot starting...")
     bot.run(DISCORD_TOKEN)
