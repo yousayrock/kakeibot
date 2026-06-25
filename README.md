@@ -1,4 +1,4 @@
-# 💰 Kakei-Bot
+# 💰 家系ボット Kakei-Bot
 
 **Discord で家計簿を自動化する、AI 駆動の家計管理ボット**
 
