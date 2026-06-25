@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>家系Bot — 家の、基本OS。</title>
-  <meta name="description" content="Discord上でレシート写真を送るだけで家計簿を自動管理。AIがレシートを読み取り、カテゴリ分けから確定申告用Excelまで対応。Googleカレンダー連携も。">
+  <meta name="description" content="Discord上でレシート写真を送るだけで家計簿を自動管理。AIがレシートを読み取り、カテゴリ分けから確定申告用Excelまで対応。個人事業主・フリーランス向けオープンソース家計管理ボット。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -258,6 +258,15 @@
 
     .feature-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
 
+    .feature-example {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+      font-size: 0.78rem;
+      color: var(--gold-light);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
     .howto { padding: 6rem 0; }
 
     .steps {
@@ -494,39 +503,63 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="section-tag">FEATURES</span>
-      <h2 class="section-title">レシートを送るだけで、全部終わる。</h2>
-      <p class="section-lead">面倒な入力ゼロ。AIが代わりにやってくれる。</p>
+      <h2 class="section-title">話しかけるだけで、全部終わる。</h2>
+      <p class="section-lead">個人事業主・フリーランス・小規模店舗のための、AI駆動の家計管理。</p>
     </div>
     <div class="features-grid">
       <div class="feature-card reveal">
         <span class="feature-icon">📸</span>
         <div class="feature-name">レシート自動読み取り</div>
-        <p class="feature-desc">写真を送るだけでAIが金額・店名・カテゴリを自動抽出。手入力不要。</p>
+        <p class="feature-desc">レシートの写真を送るだけ。AIが店名・金額・カテゴリを自動抽出して記録します。</p>
+        <div class="feature-example">→ 画像を送るだけ</div>
       </div>
       <div class="feature-card reveal">
-        <span class="feature-icon">🤖</span>
-        <div class="feature-name">経理AIアドバイザー</div>
-        <p class="feature-desc">「これ経費になる？」に即答。2段階AI（Haiku/Sonnet）が複雑な質問も丁寧に対応。</p>
+        <span class="feature-icon">💰</span>
+        <div class="feature-name">収入を自然言語で記録</div>
+        <p class="feature-desc">「給料15万入った」「売上30万」と話しかけるだけで日々の収入を記録。</p>
+        <div class="feature-example">→「売上30万入った」</div>
       </div>
       <div class="feature-card reveal">
         <span class="feature-icon">📊</span>
-        <div class="feature-name">収支レポート即答</div>
-        <p class="feature-desc">「今月の食費いくら？」と聞くだけ。カテゴリ別・月別の集計がチャットで届く。</p>
+        <div class="feature-name">収支確認をリアルタイムに</div>
+        <p class="feature-desc">「今月見せて」「先月の食費いくら？」で月間・カテゴリ別の集計が即届く。</p>
+        <div class="feature-example">→「先月の食費いくら？」</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">✏️</span>
+        <div class="feature-name">修正・削除も会話で</div>
+        <p class="feature-desc">「金額800円に直して」「最後の記録削除」で誤入力もその場で修正できます。</p>
+        <div class="feature-example">→「金額800円に直して」</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">✍️</span>
+        <div class="feature-name">手入力モード</div>
+        <p class="feature-desc">「手入力」と送れば、レシートがない出費も直接フォームで記録可能。</p>
+        <div class="feature-example">→「手入力」</div>
       </div>
       <div class="feature-card reveal">
         <span class="feature-icon">📋</span>
-        <div class="feature-name">確定申告Excel自動生成</div>
-        <p class="feature-desc">「まとめて」と送るだけで国税庁フォーマットの収支内訳書を自動作成。</p>
+        <div class="feature-name">確定申告用Excel出力</div>
+        <p class="feature-desc">「まとめて」の一言で年間ファイルを自動生成。税理士・e-Tax提出にそのまま使える。</p>
+        <div class="feature-example">→「まとめて」</div>
       </div>
       <div class="feature-card reveal">
-        <span class="feature-icon">🗓️</span>
-        <div class="feature-name">Googleカレンダー連携</div>
-        <p class="feature-desc">「明日14時に打ち合わせ」と送るとカレンダーに自動追加。予定管理も一元化。</p>
+        <span class="feature-icon">💬</span>
+        <div class="feature-name">AIカテゴリ相談</div>
+        <p class="feature-desc">「これ何費？」と聞けばAIが分類をアドバイス。経費判断に迷ったらBotに相談。</p>
+        <div class="feature-example">→「これ何費？」</div>
       </div>
       <div class="feature-card reveal">
-        <span class="feature-icon">☁️</span>
-        <div class="feature-name">Google Drive自動バックアップ</div>
-        <p class="feature-desc">全データをGoogle Driveに自動同期。PCが変わっても記録は消えない。</p>
+        <span class="feature-icon">⚙️</span>
+        <div class="feature-name">カテゴリ自由設定</div>
+        <p class="feature-desc">config.ymlでカテゴリ・対象チャンネルを自由に追加・編集。業種に合わせて最適化。</p>
+        <div class="feature-example">→ YAMLでカスタマイズ</div>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🔓</span>
+        <div class="feature-name">オープンソース・MIT</div>
+        <p class="feature-desc">処理ロジックが全て見える透明性。データは手元に保存され、外部には漏れません。</p>
+        <div class="feature-example">→ GitHub公開・商用可</div>
       </div>
     </div>
   </div>
@@ -537,200 +570,4 @@
     <div class="section-header reveal">
       <span class="section-tag">HOW TO</span>
       <h2 class="section-title">使い方は、4ステップ。</h2>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-title">GitHubからダウンロード</div>
-        <p class="step-desc">ZIPを展開してsetup.batをダブルクリック</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-title">APIキーを2つ入力</div>
-        <p class="step-desc">Discord BotトークンとAnthropic APIキーだけ</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-title">Botをサーバーに招待</div>
-        <p class="step-desc">専用チャンネルを作るか、既存チャンネルで使う</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-title">レシートを送る</div>
-        <p class="step-desc">あとはBotが全部やる。以上。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-tag">PRICING</span>
-      <h2 class="section-title">料金プラン</h2>
-      <p class="section-lead">GitHubからのセルフインストールは無料。納品・サポート付きプランも選べます。</p>
-    </div>
-    <div class="plans">
-      <div class="plan reveal">
-        <div class="plan-name">SELF</div>
-        <div class="plan-price">¥0<span> / 無料</span></div>
-        <p class="plan-desc">GitHubからダウンロードして自分でセットアップ</p>
-        <ul class="plan-features">
-          <li>全機能利用可能</li>
-          <li>GitHubでオープンソース公開</li>
-          <li>自己責任でのセットアップ</li>
-        </ul>
-      </div>
-      <div class="plan featured reveal">
-        <div class="plan-badge">人気</div>
-        <div class="plan-name">INSTALL</div>
-        <div class="plan-price">¥5,000<span> / 初回のみ</span></div>
-        <p class="plan-desc">PCへの出張インストール＋動作確認込み</p>
-        <ul class="plan-features">
-          <li>セットアップ代行</li>
-          <li>動作確認・テスト</li>
-          <li>使い方レクチャー</li>
-          <li>初月サポート</li>
-        </ul>
-      </div>
-      <div class="plan reveal">
-        <div class="plan-name">CUSTOM</div>
-        <div class="plan-price">要相談</div>
-        <p class="plan-desc">業種別カスタマイズ＋継続サポート</p>
-        <ul class="plan-features">
-          <li>カテゴリ・帳票のカスタマイズ</li>
-          <li>事業向け設定（宿泊・飲食など）</li>
-          <li>継続サポート</li>
-          <li>機能追加リクエスト対応</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="report">
-  <div class="container">
-    <div class="report-inner">
-      <div class="reveal">
-        <div class="report-tag-coming">COMING NEXT</div>
-        <h2 class="report-title">「言ったのに<br>伝わってない」を<br>終わらせる。</h2>
-        <p class="report-desc">
-          次フェーズは家族の報連相システム。<br>
-          家計管理の次は、家族間のコミュニケーションを整える。
-        </p>
-        <ul class="report-items">
-          <li>家族へのお知らせ・共有を自動化</li>
-          <li>タスク管理・担当割り当て</li>
-          <li>忘れがちな予定を自動リマインド</li>
-        </ul>
-      </div>
-      <div class="discord-mock reveal">
-        <div class="discord-header">家族ルーム</div>
-        <div class="discord-messages">
-          <div class="dm">
-            <div class="dm-avatar user">ユ</div>
-            <div class="dm-body">
-              <div class="dm-name">ユウセイ</div>
-              <div class="dm-text">明日の夕飯買い出しよろしく</div>
-            </div>
-          </div>
-          <div class="dm">
-            <div class="dm-avatar bot">🏠</div>
-            <div class="dm-body">
-              <div class="dm-name bot-name">家系Bot</div>
-              <div class="dm-text">📌 タスク登録しました<br>「夕飯の買い出し」→ 明日の担当に追加<br>🔔 明日17:00にリマインドします</div>
-            </div>
-          </div>
-          <div class="dm">
-            <div class="dm-avatar bot">🏠</div>
-            <div class="dm-body">
-              <div class="dm-name bot-name">家系Bot</div>
-              <div class="dm-text">💡 今月の食費予算、残り¥8,400です</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="platform">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-tag">PLATFORM</span>
-      <h2 class="section-title">動作環境</h2>
-    </div>
-    <table class="platform-table reveal">
-      <thead>
-        <tr><th>項目</th><th>詳細</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>動作OS</td><td>Windows 10 / 11（setup.bat対応）、Mac / Linux（手動セットアップ）</td></tr>
-        <tr><td>Python</td><td>3.10 以上</td></tr>
-        <tr><td>必要API</td><td>Discord Bot トークン、Anthropic API キー</td></tr>
-        <tr><td>オプション</td><td>Google Cloud（カレンダー連携・Drive同期）</td></tr>
-        <tr><td>クラウドデプロイ</td><td>Railway 対応（24時間稼働）</td></tr>
-        <tr><td>ライセンス</td><td>MIT（商用利用可）</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="cta-section">
-  <div class="container">
-    <h2 class="cta-title reveal">家計を、<em style="font-style:normal;color:var(--gold)">解放</em>しよう。</h2>
-    <p class="cta-sub reveal">セットアップ5分。今日から記録が変わる。</p>
-    <div class="reveal">
-      <a class="btn-primary" href="https://github.com/yousayrock/kakeibot" style="margin-right:1rem;">GitHubで見る</a>
-      <a class="btn-ghost" href="mailto:spacefamilycompany@gmail.com">導入相談する</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 寳家 / 未来ガジェット研究所 — <a href="https://github.com/yousayrock/kakeibot">GitHub</a></p>
-  <p style="margin-top:0.4rem;font-size:0.72rem;">ヘセド・エメト</p>
-</footer>
-
-<script>
-  (function() {
-    const canvas = document.getElementById('stars-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    function initStars() {
-      stars = [];
-      const count = Math.floor((canvas.width * canvas.height) / 6000);
-      for (let i = 0; i < count; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          r: Math.random() * 1.2 + 0.2,
-          a: Math.random(),
-          speed: Math.random() * 0.004 + 0.001,
-          phase: Math.random() * Math.PI * 2
-        });
-      }
-    }
-    let frame = 0;
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      frame++;
-      for (const s of stars) {
-        const alpha = s.a * (0.5 + 0.5 * Math.sin(frame * s.speed + s.phase));
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,240,200,${alpha})`;
-        ctx.fill();
-      }
-      requestAnimationFrame(draw);
-    }
-    window.addEventListener('resize', () => { resize(); initStars(); });
-    resize(); initStars(); draw();
-  })();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+      <p class="section-l
